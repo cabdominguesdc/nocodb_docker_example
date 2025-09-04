@@ -1,0 +1,64 @@
+Script de backup automático que cobre as duas partes essenciais:
+
+Dump lógico da base de dados PostgreSQL (nocodb_main) → com pg_dump.
+
+Cópia da pasta nocodb/ → para guardar uploads e configs.
+
+--------------Script backup.sh -------------
+#!/bin/bash
+# Backup automático do NocoDB (Postgres + dados locais)
+
+# === CONFIGURAÇÕES ===
+BACKUP_DIR="./backups"
+DATE=$(date +"%Y%m%d_%H%M%S")
+
+# Credenciais e container do Postgres
+POSTGRES_USER="pgadmin"
+POSTGRES_DB="nocodb_main"
+POSTGRES_CONTAINER="nocodb_postgres"
+
+# Diretórios a salvaguardar
+NOCODB_DATA="./nocodb"
+POSTGRES_DATA="./db"
+
+# === CRIA PASTA DE BACKUP ===
+mkdir -p "$BACKUP_DIR/db" "$BACKUP_DIR/nocodb"
+
+echo "=== Início do backup NocoDB: $DATE ==="
+
+# === BACKUP DA BASE DE DADOS (pg_dump) ===
+echo "[1/2] Dump da base de dados Postgres..."
+docker exec -t $POSTGRES_CONTAINER \
+    pg_dump -U $POSTGRES_USER $POSTGRES_DB \
+    > "$BACKUP_DIR/db/nocodb_main_$DATE.sql"
+
+# === BACKUP DA PASTA NOCODB ===
+echo "[2/2] Cópia da pasta de dados do NocoDB..."
+tar -czf "$BACKUP_DIR/nocodb/nocodb_data_$DATE.tar.gz" $NOCODB_DATA
+
+echo "=== Backup concluído: $BACKUP_DIR ==="
+
+
+--------------Script backup.sh -------------
+
+
+chmod +x backup.sh
+
+./backup.sh
+
+Vai gerar algo como:
+
+backups/db/nocodb_main_20250904_153000.sql
+
+backups/nocodb/nocodb_data_20250904_153000.tar.gz
+
+COLOCAR EM CRON
+0 2 * * * /caminho/para/project/backup.sh >> /caminho/para/project/backup.log 2>&1
+
+Restaurar
+docker exec -i nocodb_postgres psql -U pgadmin -d nocodb_main < backups/db/nocodb_main_20250904_153000.sql
+
+tar -xzf backups/nocodb/nocodb_data_20250904_153000.tar.gz -C .
+
+
+
