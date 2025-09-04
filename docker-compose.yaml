@@ -1,0 +1,48 @@
+services:
+  nocodb_postgres_db:
+    image: postgres:15
+    container_name: nocodb_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - nocodb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb_app
+    restart: always
+    environment:
+      NC_DB_TYPE: pg
+      NC_DB_HOST: nocodb_postgres_db
+      NC_DB_PORT: 5432
+      NC_DB_USER: ${POSTGRES_USER}
+      NC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      NC_DB_DATABASE: ${POSTGRES_DB}
+      NC_AUTH_JWT_SECRET: 569a1821-0a93-45e8-87ab-eb857f20a010
+    ports:
+      - "8998:8080"
+    volumes:
+      - ./nocodb:/usr/app/data/
+    networks:
+      - nocodb
+    depends_on:
+      nocodb_postgres_db:
+        condition: service_healthy
+
+networks:
+  nocodb:
+    driver: bridge
