@@ -38,4 +38,7 @@ Criar os dados todos na BD criada pelo script  initdb/create-db.sql (ou seja, fo
 Ver manual aqui: https://nocodb.com/docs/product-docs 
 
 
-Para aceder do PowerBI, aceder com as credenciais da BD criada.
+Para aceder do PowerBI, aceder com as credenciais da BD criada. Alternativamente usar a API Swagger que pode ser acedida no menu da respetiva BASE.
+
+<img width="354" height="328" alt="imagem" src="https://github.com/user-attachments/assets/9393c322-32ff-4581-8e1e-92dc97251d51" />
+
