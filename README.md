@@ -10,17 +10,19 @@ Editar o .env e mudar as passwords da BD. Usar passwords fortes (maiusculas, min
 
 <b>docker-compose up --build -d</b>
 
-(a opção -d coloca os container a correr em background. caso se queira ver os logs, podemos arrancar com docker-compose up --build   )
+(a opção -d coloca os container a correr em background. caso se queira ver os logs enquanto os containers são iniciados, podemos executar apenas   docker-compose up --build   )
 
-Ver o resultado com 
+Ver o resultado da criação dos containers com 
 
- <b>docker container ls | grep nocodb   </b>        
+ <b>docker container ls -a | grep nocodb   </b>        
  
   xxxxxxxxxxxx   nocodb/nocodb:latest                                                        "/usr/bin/dumb-init …"   6 minutes ago   Up 4 minutes             0.0.0.0:8998->8080/tcp, [::]:8998->8080/tcp              nocodb_app
 
   xxxxxxxxxxxx   postgres:15                                                                 "docker-entrypoint.s…"   6 minutes ago   Up 4 minutes (healthy)   0.0.0.0:2432->5432/tcp, [::]:2432->5432/tcp              nocodb_postgres
 
-Devemos ter dois containers a correr. Caso nao fiquem, observar os logs com  docker container logs nocodb_app e docker container logs nocodb_postgres 
+Devemos ter dois containers a correr. Caso nao fiquem, observar os logs com  
+    docker container logs nocodb_app e 
+    docker container logs nocodb_postgres 
 
 
 Depois dos dois containers docker arrancarem, aceder a 
@@ -37,8 +39,10 @@ Criar os dados todos na BD criada pelo script  initdb/create-db.sql (ou seja, fo
 
 Ver manual aqui: https://nocodb.com/docs/product-docs 
 
+Garantir o backup das pastas dos dados (Dados do nocoDB e  BD postgreSQL)
 
-Para aceder do PowerBI, aceder com as credenciais da BD criada. Alternativamente usar a API Swagger que pode ser acedida no menu da respetiva BASE.
+
+Para aceder do PowerBI para criar reports, aceder com as credenciais da BD criada. Alternativamente usar a API Swagger que pode ser acedida no menu da respetiva BASE.
 
 <img width="354" height="328" alt="imagem" src="https://github.com/user-attachments/assets/9393c322-32ff-4581-8e1e-92dc97251d51" />
 
