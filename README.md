@@ -6,7 +6,9 @@ git clone https://github.com/cabdominguesdc/nocodb_docker_example.git
 
 cd nocodb_docker_example
 
-docker-compose up --build
+docker-compose up --build -d
+
+(a opção -d coloca os container a correr em background. caso se queira ver os logs, podemos arrancar com docker-compose up --build   )
 
 
 Depois dos dois containers docker arrancarem, aceder a 
