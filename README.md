@@ -28,4 +28,13 @@ http://IP_PUBLICO_SERVIDOR:8998/dashboard/#/signup
 
 <img width="614" height="643" alt="imagem" src="https://github.com/user-attachments/assets/724c40c4-5ab2-4271-8aa2-4fa084fad0b2" />
 
-Para aceder do PowerBI, 
+Depois de entrar no NocoDB, configurar uma ligação (icon connection) à BD criada no script initdb/create-db.sql
+
+<img width="1275" height="721" alt="imagem" src="https://github.com/user-attachments/assets/de004a95-e054-4cd7-9926-ccc2bb8e94be" />
+
+
+
+
+
+
+Para aceder do PowerBI, aceder com as credenciais 
