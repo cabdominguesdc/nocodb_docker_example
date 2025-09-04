@@ -12,7 +12,7 @@ Cópia da pasta nocodb/ → para guardar uploads e configs.
 BACKUP_DIR="./backups"
 DATE=$(date +"%Y%m%d_%H%M%S")
 
-# Credenciais e container do Postgres
+# Credenciais e container do Postgres  - <b>MUITO IMPORTANTE É GARANTIR QUE TODOS OS DATASOURCES DO NOCODB ESTÃO PROTEGIDOS COM BACKUP</b>. Ajustar as credenciais em conformidade. No final da execução do script validar que as tabelas criadas no NOCOBD estão no backup.
 POSTGRES_USER="gestor"
 POSTGRES_DB="nocodb_test"
 POSTGRES_CONTAINER="nocodb_postgres"
