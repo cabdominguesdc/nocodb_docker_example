@@ -33,8 +33,9 @@ Depois de entrar no NocoDB, configurar uma ligação (icon connection) à BD cri
 <img width="1275" height="721" alt="imagem" src="https://github.com/user-attachments/assets/de004a95-e054-4cd7-9926-ccc2bb8e94be" />
 
 
+Criar os dados todos na BD criada pelo script  initdb/create-db.sql (ou seja, fora da BD do Nocodb)
+
+Ver manual aqui: https://nocodb.com/docs/product-docs 
 
 
-
-
-Para aceder do PowerBI, aceder com as credenciais 
+Para aceder do PowerBI, aceder com as credenciais da BD criada.
