@@ -3,8 +3,11 @@ Projeto (exemplo) com Framework NocoDB e BD Postgresql
 Num servidor linux
 
 git clone https://github.com/cabdominguesdc/nocodb_docker_example.git
+
 cd nocodb_docker_example
+
 docker-compose up --build
+
 
 Depois dos dois containers docker arrancarem, aceder a 
 http://IP_SERVIDOR:PORTO/dashboard/#/signup
