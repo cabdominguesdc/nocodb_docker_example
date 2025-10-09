@@ -42,7 +42,9 @@ Ver manual aqui: https://nocodb.com/docs/product-docs
 Garantir o backup das pastas dos dados (Dados do nocoDB e  BD postgreSQL)
 
 
-Para aceder do PowerBI para criar reports, aceder com as credenciais da BD criada. Alternativamente usar a API Swagger que pode ser acedida no menu da respetiva BASE.
+Para aceder do PowerBI para criar reports, aceder com as credenciais da BD criada. 
+É necessáro instalar o https://cdn.mysql.com//Downloads/Connector-Net/mysql-connector-net-9.4.0.msi
+Alternativamente usar a API Swagger que pode ser acedida no menu da respetiva BASE.
 
 <img width="354" height="328" alt="imagem" src="https://github.com/user-attachments/assets/9393c322-32ff-4581-8e1e-92dc97251d51" />
 
