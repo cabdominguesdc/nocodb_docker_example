@@ -1,0 +1,78 @@
+import os
+import base64
+import json
+import pandas as pd
+import mysql.connector
+import requests
+from datetime import datetime
+from dotenv import load_dotenv
+
+# Carregar variáveis do .env
+load_dotenv()
+
+# Variáveis de ambiente
+MYSQL_HOST = os.getenv("MYSQL_HOST", "mysql")
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "password")
+MYSQL_DB = os.getenv("MYSQL_DB", "nocodb")
+MYSQL_TABLE = os.getenv("MYSQL_TABLE", "minha_tabela")
+POWER_AUTOMATE_URL = os.getenv("POWER_AUTOMATE_URL")  # URL do trigger HTTP
+EXPORT_PATH = "/exports"
+
+def export_to_excel():
+    ano_corrente = datetime.now().year
+    print(f"[INFO] A exportar dados do ano {ano_corrente}...")
+
+    # Conectar à BD
+    conn = mysql.connector.connect(
+        host=MYSQL_HOST,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DB
+    )
+
+    query = f"SELECT * FROM {MYSQL_TABLE};"
+    df = pd.read_sql(query, conn)
+    conn.close()
+
+    # Exportar para Excel
+    filename = f"{MYSQL_TABLE}_{ano_corrente}_{datetime.now().strftime('%Y%m%d')}.xlsx"
+    filepath = os.path.join(EXPORT_PATH, filename)
+    df.to_excel(filepath, index=False)
+    print(f"[INFO] Ficheiro exportado: {filepath}")
+
+    # Enviar para Power Automate
+    if POWER_AUTOMATE_URL:
+        try:
+            # Ler e converter para Base64
+            with open(filepath, "rb") as f:
+                file_bytes = f.read()
+                encoded_file = base64.b64encode(file_bytes).decode("utf-8")
+
+            # Criar o corpo JSON conforme o schema do Power Automate
+            data = {
+                "filename": filename,
+                "filecontent": encoded_file
+            }
+
+            headers = {"Content-Type": "application/json"}
+
+            # Enviar em UTF-8
+            response = requests.post(
+                POWER_AUTOMATE_URL,
+                headers=headers,
+                data=json.dumps(data, ensure_ascii=False).encode("utf-8")
+            )
+
+            if response.status_code == 200:
+                print("[INFO] Ficheiro enviado com sucesso para Power Automate.")
+            else:
+                print(f"[ERRO] Falha ao enviar para Power Automate: {response.status_code}, {response.text}")
+
+        except Exception as e:
+            print(f"[ERRO] Erro ao enviar ficheiro: {e}")
+    else:
+        print("[AVISO] Nenhuma URL de Power Automate configurada.")
+
+if __name__ == "__main__":
+    export_to_excel()
